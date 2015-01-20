@@ -62,6 +62,9 @@ def _random_correlated_image(mean, sigma, image_shape, alpha=0.3, rng=None):
                              shape=(dim_image, dim_image))
 
         sq_correlation = P.dot(L)
+        if rng is None:
+            import numpy.random as rng
+        
         X = rng.normal(0, 1, dim_image)
         Y = sq_correlation.dot(X)
         Y = Y.reshape((dim_x, dim_y, dim_z))
@@ -207,6 +210,8 @@ def rician_noise(image, sigma, rng=None):
     sigma : double
     rng : random number generator (a numpy.random.RandomState instance).
     """
+    if rng is None:
+        import numpy.random as rng
 
     n1 = rng.normal(loc=0, scale=sigma, size=image.shape)
     n2 = rng.normal(loc=0, scale=sigma, size=image.shape)
